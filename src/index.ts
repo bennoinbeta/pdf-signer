@@ -15,16 +15,18 @@ const start = async (): Promise<void> => {
     const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
     const pages = pdfDoc.getPages();
-    const firstPage = pages[0];
-    const { width, height } = firstPage.getSize();
-    firstPage.drawText("This text is outdated!", {
-      x: 5,
-      y: height / 2 + 300,
-      size: 50,
-      font: helveticaFont,
-      color: rgb(0.95, 0.1, 0.1),
-      rotate: degrees(-45),
-    });
+
+    for (const page of pages) {
+      const { width, height } = page.getSize();
+      page.drawText("This text is outdated!", {
+        x: width / 2 - 200,
+        y: height / 2 + 200,
+        size: 50,
+        font: helveticaFont,
+        color: rgb(0.95, 0.1, 0.1),
+        rotate: degrees(-45),
+      });
+    }
 
     // Save PDF
     const pdfBytes = await pdfDoc.save();

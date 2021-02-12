@@ -1,0 +1,9 @@
+{
+  "name": "pdf-signer",
+  "version": "0.0.1",
+  "description": "none",
+  "main": "index.ts",
+  "repository": "https://github.com/bennodev19/pdf-signer.git",
+  "author": "BennoDev",
+  "license": "MIT"
+}

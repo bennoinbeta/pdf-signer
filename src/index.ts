@@ -39,8 +39,8 @@ const start = async (): Promise<void> => {
 
       // Add Sign Image
       page.drawImage(signImage, {
-        x: page.getWidth() / 2 - signImageDims.width / 2,
-        y: page.getHeight() / 2 - signImageDims.height / 2 + 250,
+        x: page.getWidth() / 2 - signImageDims.width / 2 - 100,
+        y: page.getHeight() / 2 - signImageDims.height / 2 - 250,
         width: signImageDims.width,
         height: signImageDims.height,
       });

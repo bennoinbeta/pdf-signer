@@ -1,4 +1,5 @@
 import fs from "fs";
+import libre from "libreoffice-convert";
 
 export const readFile = async (filepath: string): Promise<Uint8Array> => {
   console.log("Info: Start Reading File", filepath);
@@ -36,7 +37,14 @@ export const readFilesFromDir = async (
 
   for (const key in filesInDir) {
     const filename = filesInDir[key];
-    filesObject[filename] = await readFile(`${dirpath}${filename}`);
+    let file = await readFile(`${dirpath}${filename}`);
+
+    // Convert to to pdf if docx format
+    if (filename.endsWith(".docx")) {
+      file = await docToPdf(file);
+    }
+
+    filesObject[filename] = file;
   }
 
   return filesObject;
@@ -53,8 +61,8 @@ export const writeFile = async (
         console.log("Error: Writing File", filepath);
         reject(err);
       }
-      resolve(undefined);
       console.log("Info: End Writing File", filepath);
+      resolve(undefined);
     });
   });
 };
@@ -67,8 +75,22 @@ export const writeDir = async (dirpath: string): Promise<void> => {
         console.log("Error: Writing Dir", dirpath);
         reject(err);
       }
-      resolve(undefined);
       console.log("Info: End Writing Dir", dirpath);
+      resolve(undefined);
+    });
+  });
+};
+
+export const docToPdf = async (data: Uint8Array): Promise<Uint8Array> => {
+  console.log("Info: Start Converting to PDF");
+  return await new Promise((resolve, reject) => {
+    libre.convert(data, ".pdf", undefined, (err, done) => {
+      if (err) {
+        console.log("Error: Converting to PDF");
+        reject(err);
+      }
+      console.log("Info: End Converting to PDF");
+      resolve(done);
     });
   });
 };

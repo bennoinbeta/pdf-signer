@@ -49,10 +49,11 @@ const readFilesFromDir = async (
 const savePdf = (filename: string, dirname: string, data: Uint8Array): void => {
   // Create Output Folder
   fs.mkdir(dirname, { recursive: true }, (err) => {
+    const endPart = filename.endsWith(".pdf") ? "" : ".pdf";
     if (err) throw err;
 
     // Uint8Array
-    fs.writeFile(`${dirname}${filename}.pdf`, data, (err) => {
+    fs.writeFile(`${dirname}${filename}${endPart}`, data, (err) => {
       if (err) throw err;
     });
   });

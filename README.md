@@ -1,8 +1,10 @@
 # PDF-Signer
 
 A simple NodeJs application, which automatically adds signs to multiple pdf documents.
-Unfortunately it will never have a UI, so don't worry and just follow the steps bellow.
+Unfortunately it will never have a UI, so don't worry and just follow the `Get Started Guide` bellow.
 
+
+## Get Started
 
 ### Step 1
 
@@ -58,3 +60,14 @@ page.drawImage(signImage, {
 
 Run `yarn run start` which automatically builds and executes this project.
 If everything went right, our signed pdf files are located in the generated `output` folder.
+
+
+## API
+
+### `combineIntoOnePdf`
+
+If all signed pdf pages should be put into one single pdf file named after the `combinedPdfName` property.
+```ts
+const combineIntoOnePdf = true;
+const combinedPdfName = "allBerichtshefte";
+```

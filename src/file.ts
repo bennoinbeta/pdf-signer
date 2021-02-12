@@ -40,7 +40,7 @@ export const readFilesFromDir = async (
     let file = await readFile(`${dirpath}${filename}`);
 
     // Convert to to pdf if docx format
-    if (filename.endsWith(".docx")) {
+    if (filename.endsWith(".docx") || filename.endsWith(".doc")) {
       file = await docToPdf(file);
     }
 

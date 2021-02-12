@@ -1,45 +1,95 @@
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
+import { PDFDocument, StandardFonts, rgb, degrees } from "pdf-lib";
 import * as fs from "fs";
 
 const outputPath = "./output/";
+const inputPath = "./input/";
 
-const createPdf = async (): Promise<Uint8Array> => {
-  const pdfDoc = await PDFDocument.create();
-  const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
-
-  const page = pdfDoc.addPage();
-  const { width, height } = page.getSize();
-  const fontSize = 30;
-  page.drawText("Creating PDFs in JavaScript is awesome!", {
-    x: 50,
-    y: height - 4 * fontSize,
-    size: fontSize,
-    font: timesRomanFont,
-    color: rgb(0, 0.53, 0.71),
+const readFile = async (filepath: string): Promise<Uint8Array> => {
+  console.log("Info: Start Reading File", filepath);
+  return await new Promise((resolve, reject) => {
+    fs.readFile(filepath, (err, content) => {
+      if (err) {
+        console.log("Error: Reading File", filepath);
+        reject(err);
+      }
+      console.log("Info: End Reading File", filepath);
+      resolve(content);
+    });
   });
-
-  return await pdfDoc.save();
 };
 
-const saveData = (data: Uint8Array): void => {
-  const callback = (err) => {
-    if (err) throw err;
-    console.log("It's saved!");
-  };
+const readDir = async (dirpath: string): Promise<string[]> => {
+  console.log("Info: Start Reading Dir", dirpath);
+  return await new Promise((resolve, reject) => {
+    fs.readdir(dirpath, (err, filenames) => {
+      if (err) {
+        console.log("Error: Reading Dir", dirpath);
+        reject(err);
+      }
+      console.log("Info: End Reading Dir", dirpath, filenames);
+      resolve(filenames);
+    });
+  });
+};
 
+const readFilesFromDir = async (
+  dirpath: string
+): Promise<{ [key: string]: Uint8Array }> => {
+  const filesObject = {};
+  const filesInDir = await readDir(dirpath);
+
+  for (const key in filesInDir) {
+    const filename = filesInDir[key];
+    filesObject[filename] = await readFile(`${dirpath}${filename}`);
+  }
+
+  return filesObject;
+};
+
+const savePdf = (filename: string, dirname: string, data: Uint8Array): void => {
   // Create Output Folder
-  fs.mkdir(outputPath, { recursive: true }, (err) => {
+  fs.mkdir(dirname, { recursive: true }, (err) => {
     if (err) throw err;
 
     // Uint8Array
-    fs.writeFile(outputPath + "test.pdf", data, callback);
+    fs.writeFile(`${dirname}${filename}.pdf`, data, (err) => {
+      if (err) throw err;
+    });
   });
 };
 
+// Actual Function
 const start = async (): Promise<void> => {
-  const data = await createPdf();
-  await saveData(data);
+  console.log("Info: Start Reading Data");
+  const data = await readFilesFromDir(inputPath);
+  console.log("Info: End Reading Data");
+
+  for (const filename in data) {
+    console.log("Info: Start Editing File", filename);
+    const pdfDoc = await PDFDocument.load(data[filename]);
+    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0];
+    const { width, height } = firstPage.getSize();
+    firstPage.drawText("This text is outdated!", {
+      x: 5,
+      y: height / 2 + 300,
+      size: 50,
+      font: helveticaFont,
+      color: rgb(0.95, 0.1, 0.1),
+      rotate: degrees(-45),
+    });
+
+    // Save PDF
+    const pdfBytes = await pdfDoc.save();
+    await savePdf(filename, outputPath, pdfBytes);
+
+    console.log("Info: End Editing File", filename);
+  }
 };
 
-start();
-console.log("Test");
+console.log("Info: Start Program");
+start().then(() => {
+  console.log("Info: End Program");
+});

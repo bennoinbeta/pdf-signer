@@ -1,11 +1,12 @@
 # Dependencies
 /node_modules
 /dist
-/output
-input/*
 
 # Production
 /build
+
+# Files (Input, Output, ..)
+/files
 
 
 # Editor directories and files

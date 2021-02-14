@@ -46,6 +46,7 @@ const start = async (): Promise<void> => {
       });
 
       // Add Text to pdf
+      /*
       page.drawText("This text is outdated!", {
         x: width / 2 - 200,
         y: height / 2 + 200,
@@ -54,6 +55,8 @@ const start = async (): Promise<void> => {
         color: rgb(0.95, 0.1, 0.1),
         rotate: degrees(-45),
       });
+       */
+
       console.log("Info: End Editing Page ", i);
     }
     console.log("Info: End Editing File", filename);

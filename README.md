@@ -18,7 +18,7 @@ Run `yarn install` to install all necessary dependencies.
 
 ### Step 2
 
-Create a `file` folder with 2 sub folders called `input` and `signs` on the root of the project.
+Create a `files` folder with 2 sub folders called `input` and `signs` on the root of the project.
 ```js title="TodoList-Core"
 pdf-signer
 │── files
@@ -58,7 +58,7 @@ page.drawImage(signImage, {
 
 ### Step 4
 
-Run `yarn run start` which automatically builds and executes this project.
+Run `yarn run start` which automatically builds and executes the project.
 If everything went right, our signed pdf files are located in the generated `output` folder.
 
 

@@ -1,7 +1,7 @@
 import fs from "fs";
 import libre from "libreoffice-convert";
 
-export const readFile = async (filepath: string): Promise<Uint8Array> => {
+export const readFile = async (filepath: string): Promise<Buffer> => {
   console.log("Info: Start Reading File", filepath);
   return await new Promise((resolve, reject) => {
     fs.readFile(filepath, (err, content) => {
@@ -31,7 +31,7 @@ export const readDir = async (dirpath: string): Promise<string[]> => {
 
 export const readFilesFromDir = async (
   dirpath: string
-): Promise<{ [key: string]: Uint8Array }> => {
+): Promise<{ [key: string]: Buffer }> => {
   const filesObject = {};
   const filesInDir = await readDir(dirpath);
 
@@ -52,7 +52,7 @@ export const readFilesFromDir = async (
 
 export const writeFile = async (
   filepath: string,
-  data: Uint8Array
+  data: Buffer
 ): Promise<void> => {
   console.log("Info: Start Writing File", filepath);
   return await new Promise((resolve, reject) => {
@@ -81,7 +81,7 @@ export const writeDir = async (dirpath: string): Promise<void> => {
   });
 };
 
-export const docToPdf = async (data: Uint8Array): Promise<Uint8Array> => {
+export const docToPdf = async (data: Buffer): Promise<Buffer> => {
   console.log("Info: Start Converting to PDF");
   return await new Promise((resolve, reject) => {
     libre.convert(data, ".pdf", undefined, (err, done) => {
@@ -98,7 +98,7 @@ export const docToPdf = async (data: Uint8Array): Promise<Uint8Array> => {
 export const writePdf = async (
   filename: string,
   dirname: string,
-  data: Uint8Array
+  data: Buffer
 ): Promise<void> => {
   const endPart = filename.endsWith(".pdf") ? "" : ".pdf";
   await writeDir(dirname);

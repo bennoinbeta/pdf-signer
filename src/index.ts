@@ -75,14 +75,14 @@ const start = async (): Promise<void> => {
     // Save PDF
     if (!combineIntoOnePdf) {
       const pdfBytes = await pdfDoc.save();
-      await writePdf(filename, pdfOutputPath, pdfBytes);
+      await writePdf(filename, pdfOutputPath, Buffer.from(pdfBytes));
     }
   }
 
   // Save combinedPDF
   if (combineIntoOnePdf) {
     const pdfBytes = await combinedPdfDoc.save();
-    await writePdf(combinedPdfName, pdfOutputPath, pdfBytes);
+    await writePdf(combinedPdfName, pdfOutputPath, Buffer.from(pdfBytes));
   }
 };
 

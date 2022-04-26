@@ -42,7 +42,7 @@ This folder gets automatically generated after executing this program.
 Here our signed pdf files will be located.
 
 
-### Step 3
+### Step 4
 
 Edit the `drawImage` function call, until the sign is on the wished position.
 
@@ -56,7 +56,7 @@ page.drawImage(signImage, {
 ```
 
 
-### Step 4
+### Step 5
 
 Run `yarn run start` which automatically builds and executes the project.
 If everything went right, our signed pdf files are located in the generated `output` folder.

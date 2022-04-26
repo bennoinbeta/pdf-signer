@@ -16,7 +16,7 @@ Clone this project.
 Run `yarn install` to install all necessary dependencies.
 
 
-### Step 2
+### Step 3
 
 Create a `files` folder with 2 sub folders called `input` and `signs` on the root of the project.
 ```js title="TodoList-Core"
